@@ -3,7 +3,7 @@ import re
 import pandas as pd
 from imap_tools import MailBox, AND
 
-base = pd.read_excel('base test.xlsx')
+base = pd.read_excel('C:/Projeto leitor de e-mail/Arquivos/base test.xlsx')
 print(base)
 print('-' * 60)
 
