@@ -1,5 +1,5 @@
 ##impotando lib imap_tools para acessar conta do no email
-from imap_tools import MailBox, AND, OR,
+from imap_tools import MailBox, AND, OR
 import os
 
 
