@@ -1,7 +1,7 @@
 import os
 import re
 import pandas as pd
-from imap_tools import MailBox, AND
+from imap_tools import MailBox, AND, OR
 
 base = pd.read_excel('C:/Projeto leitor de e-mail/Arquivos/base test.xlsx')
 print(base)
