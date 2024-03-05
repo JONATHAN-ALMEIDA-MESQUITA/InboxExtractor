@@ -60,6 +60,11 @@ for voucher in base['Voucher']:
 # Adicionar os resultados como uma nova coluna ao DataFrame
 base['Status'] = resultados
 
+# Determinando pasta, nome do arquivo e transformando o DF em .xlsx
+pasta_out = 'C:/Projeto leitor de e-mail/Arquivos/'
+arquivo_out = 'base_final.xlsx'
+caminho_completo = pasta_out + arquivo_out
+base.to_excel(caminho_completo, index=False)
 # Exibir o DataFrame atualizado
 print('-' * 60)
 print(base)

@@ -1,8 +1,9 @@
 import os
 import re
 import pandas as pd
-from imap_tools import MailBox, AND, OR
-from fpdf import FPDF
+from imap_tools import MailBox, AND
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 base = pd.read_excel('C:/Projeto leitor de e-mail/Arquivos/base test.xlsx')
 print(base)
@@ -61,17 +62,13 @@ for voucher in base['Voucher']:
                 nome_arquivo = f'email_{voucher}_{idx + 1}.pdf'
                 caminho_arquivo = os.path.join(pasta_salvar, nome_arquivo)
                 # Criar o PDF
-                pdf = FPDF()
-                pdf.add_page()
-                pdf.set_font("Arial", size=12)
-                # Adicionar o conteúdo do e-mail ao PDF
-                pdf.cell(200, 10, txt=email.subject, ln=True, align='C')
-                pdf.cell(200, 10, txt=f"Remetente: {email.from_}", ln=True)
-                pdf.cell(200, 10, txt=f"Destinatário: {email.to}", ln=True)
-                pdf.cell(200, 10, txt="Texto do Corpo:", ln=True)
-                pdf.multi_cell(0, 10, txt=email.text)
-                # Salvar o PDF
-                pdf.output(caminho_arquivo)
+                c = canvas.Canvas(caminho_arquivo, pagesize=letter)
+                c.drawString(100, 750, email.subject)
+                c.drawString(100, 730, f"Remetente: {email.from_}")
+                c.drawString(100, 710, f"Destinatário: {email.to}")
+                c.drawString(100, 690, "Texto do Corpo:")
+                c.drawString(100, 670, email.text)
+                c.save()
         elif encontrado_nao:
             resultados.append('Não Comissionado')
         else:
@@ -82,6 +79,11 @@ for voucher in base['Voucher']:
 
 # Adicionar os resultados como uma nova coluna ao DataFrame
 base['Status'] = resultados
+
+pasta_out = 'C:/Projeto leitor de e-mail/Arquivos'
+arquivo_out = 'base_final.xlsx'
+caminho_completo = os.path.join(pasta_out, arquivo_out)
+base.to_excel(caminho_completo, index=False)
 
 # Exibir o DataFrame atualizado
 print('-' * 60)
